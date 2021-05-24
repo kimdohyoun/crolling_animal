@@ -1,12 +1,19 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const fs = require('fs');
+const { request } = require("http");
+const https = require("https");
+const sharp = require("sharp"); //이미지 처리 
 
-const dbconfig   = require('../server/db.js')(); // 위에서 생성한 MySQL에 연결을 위한 코드(모듈)
+
+const dbconfig = require('../server/db.js')(); // 위에서 생성한 MySQL에 연결을 위한 코드(모듈)
 const connection = dbconfig.init();
 
 var resultList = [];
 var cnt = 0;
+var imgNum = 0
+
+
 
 
 /*이미지 로컬 저장 부분 =>
@@ -34,40 +41,40 @@ fs.readdir('poster', (err) => {
 */ //<=이미지 크롤링 끝 //https://loy124.tistory.com/287 여기꺼가 생각을 많이하고 짠거같음 
 
 
- /* node 스캐줄러  위치 =>
+/* node 스캐줄러  위치 =>
 
- npm install node-schedule --save (저장 위치 경로에 대한 좀더 이해가 필요함 )
+npm install node-schedule --save (저장 위치 경로에 대한 좀더 이해가 필요함 )
 
- const schedule= require('node-schedule');
+const schedule= require('node-schedule');
 
- cron-style scheduling 
- (******) / S/M/H/D/M/W (0,7 => sun)
+cron-style scheduling 
+(******) / S/M/H/D/M/W (0,7 => sun)
 
 var job = schedule.scheduleJob('3 40 18 12 9 *', function(){
-    let mNow =new DAte();
-    console.log(mNow);
+   let mNow =new DAte();
+   console.log(mNow);
 });  // 매년 9월 12일 오후 6시 40분 3초에 시간을 로깅하게 
 
 var job = schedule.scheduleJob('30 * * * * *', function(){
-    let mNow =new DAte();
-    console.log(mNow);
+   let mNow =new DAte();
+   console.log(mNow);
 });  // 매 30초마다 실시, 30초 간격이 아니라 30초 지만 30초면 30초만큼이나 30초나 같지않나? 
 
 
 다른 방법으로는 
 
 function getTest(req, res){
-    let rule=new schedule.RecurrenceRule();
-    rule.minute = 45 //second, minute , hour, date, month , year , dayOfWeek
-    let job =schedule.scheduleJob(rule, function (){
-        console.log("45분이 되엇습니다. 이제 실행합니다.")
-    })
+   let rule=new schedule.RecurrenceRule();
+   rule.minute = 45 //second, minute , hour, date, month , year , dayOfWeek
+   let job =schedule.scheduleJob(rule, function (){
+       console.log("45분이 되엇습니다. 이제 실행합니다.")
+   })
 }
 
 스케쥴 취소 
 job.cancel(); 
 
- */
+*/
 
 
 /* 노드 로깅 
@@ -141,111 +148,126 @@ const logFilename= path.join(__dirname, '/../', logDir, '/created-logfile.log);
 //     }
 //   });
 
+function imgResize(num){ // 이미지 원본을 저장할때 변경된 이미지도 저장 
 
 
-function inserMysql(img){// DB에 저장 부분 현제는 img 저장을 하고 있지만 나중에는 리사이징한 이미지를 S3에 올리고 그것을 가져올 생각중이였지만 내가 돈이어딨어?
+//비율을 유지하며 리사이즈 한다. width가 변경되는 비율만큼 height도 변경된다.
+// https://wedul.site/523 여기에서는 이미지를 따로 저장하지 않고 바로 크기를 변경함 
 
-    connection.query('INSERT INTO `dog` VALUES("0","'+img+'");', (error, rows) => {  //쿼리문 
+    sharp("../img/goodog0.jpg")
+    .resize({fit:'fill', width:32, height:32})
+    .toFile("../img_resize/resizeDog"+imgNum+".png");
+
+
+}
+
+function inserMysql(img) {// DB에 저장 부분 현제는 img 저장을 하고 있지만 나중에는 리사이징한 이미지를 S3에 올리고 그것을 가져올 생각중이였지만 내가 돈이어딨어?
+
+    connection.query('INSERT INTO `dog` VALUES("0","' + img + '");', (error, rows) => {  //쿼리문 
         if (error) throw error;
         else {
             console.log("insert completion");
         }
-      });
+    });
 }
 
-
 function delay(ms) {
-    return new Promise(function(resolve, reject) {
-        setTimeout(function(){
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
             resolve();
-        },ms);
+        }, ms);
     });
 }
 
 function getHTML(url) {
-    return new Promise(resolve=>{
-        delay(300).then(function() {
-            axios.get(url).then(function(data) {
+    return new Promise(resolve => {
+        delay(300).then(function () {
+            axios.get(url).then(function (data) {
                 resolve(data);
             });
         });
-    })    
+    })
 }
 
+function imgLocalfs(url) { //원본 이미지 로컬 저장 
+
+const file = fs.createWriteStream("../img/goodog"+imgNum+".jpg");
+const request2 = https.get(url, function(response) {
+  response.pipe(file);   //입력을 출력으로 리다이렉트 할수있게 해줌 
+});
+imgResize(imgNum) // 32 사이즈로 변경 
+
+imgNum = imgNum+1
+}
 
 function main() {//아직 페이지갯수만큼 당겨오지 않음 
 
-        var result = [];
-     
-        var firstDate ="2021-04-23"
-        var lastDate = "2021-04-23"
+    var result = [];
 
-        var url = "https://www.animal.go.kr/front/awtis/protection/protectionList.do?totalCount=4466&pageSize=10&boardId=&desertionNo=&menuNo=1000000060&"
-        +"searchSDate="+firstDate+"&searchEDate="+lastDate+"&searchUprCd=&searchOrgCd=&searchCareRegNo=&searchUpKindCd=417000&searchKindCd=&&page=4#moreBtn"
-        // for(var j=0;j<result.length;j++){
-            //1페이지에 10개 총갯수 가 52건이면 6페이지 
+    var firstDate = "2021-04-23"
+    var lastDate = "2021-04-23"
 
-            getHTML(url).then(html => {
-                // console.log("html  "+JSON.stringify(html) );
-                let result = {};
-                const $ = cheerio.load(html.data);
-            
-                var  text =  $("body").find(".txt").text();
-                // var imgs = $(".list").find('img').attr('src')
-                //  console.log("imgs " +  imgs); 
-                var bigSrc =[]
-                  $(".list").find('img').each(function() {
-                   var src =  $(this).attr('src');
-                   bigSrc.push(src)
-                //    console.log(src);
-                  });
+    var url = "https://www.animal.go.kr/front/awtis/protection/protectionList.do?totalCount=4466&pageSize=10&boardId=&desertionNo=&menuNo=1000000060&"
+        + "searchSDate=" + firstDate + "&searchEDate=" + lastDate + "&searchUprCd=&searchOrgCd=&searchCareRegNo=&searchUpKindCd=417000&searchKindCd=&&page=4#moreBtn"
+    // for(var j=0;j<result.length;j++){
+    //1페이지에 10개 총갯수 가 52건이면 6페이지 
 
-                 console.log("bigSrc "+bigSrc);
+    getHTML(url).then(html => {
+        // let result = {};
+        const $ = cheerio.load(html.data);
 
-                var list = text.split('\n');
-                var id =0
-                var listjson = []
-                var listLength = list.length
+        var text = $("body").find(".txt").text();
+        var bigSrc = []
+        $(".list").find('img').each(function () {
+            var src = $(this).attr('src');
+            bigSrc.push(src)
+        });
+
+        // console.log("bigSrc " + bigSrc);
+
+        var list = text.split('\n');
+        var id = 0
+        var listjson = []
+        var listLength = list.length
 
 
-                for(i=0; i < listLength-7 ;i++){
-                    // var obj = {}
-                    var Area = list[i+1].trim().substr(4,6) +"_"+list[i+5].trim().substr(4)
-                    var data1 = list[i+3].trim().substr(2)
-                    // var imgmap = JSON.stringify(imgmap) 
-                    var a = {}
+        for (i = 0; i < listLength - 7; i++) {
+            var Area = list[i + 1].trim().substr(4, 6) + "_" + list[i + 5].trim().substr(4)
+            var data1 = list[i + 3].trim().substr(2)
+            var a = {}
 
-                    a.id = id
-                    a.name = Area
-                    a.img = "https://www.animal.go.kr"+bigSrc[id]
-                    a.age = list[i+4].trim().substr(2,5)
-                    a.things = [data1,list[i+6].trim().substr(2)]
-                    a.days= 25
-                    // a.status = list[i+7].trim()
-                    a.passe = false
+            a.id = id
+            a.name = Area
+            a.img = "https://www.animal.go.kr" + bigSrc[id]
+            a.age = list[i + 4].trim().substr(2, 5)
+            a.things = [data1, list[i + 6].trim().substr(2)]
+            a.days = 25
+            a.passe = false
 
-                    i= i+7;
-                    id = id+1
-                    // obj= "!@# "+i+" 번째 "+list[i].trim()+"/  "
-                   
+            i = i + 7;
+            id = id + 1
 
-                    var img = a.img
-                    console.log("a img "+a.img +"  img  "+img) 
-                    var inserMy = inserMysql(img);
 
-                    listjson.push(a)
+            var img = a.img
+            // console.log("a img " + a.img + "  img  " + img)
 
-                }
 
-                return listjson;
-           
-            })
-            // 추가 작성
-            .then(res => {  
-                    fs.writeFile('result_json.json', JSON.stringify(res), 'utf8', function(error){  //json 파일로 저장 
-                        console.log('write end');
-                    });
+
+            var inserMy = inserMysql(img);  //mysql 저장
+            var local = imgLocalfs(img);  //  원본이미지, 리사이징이미지  로컬 저장
+            listjson.push(a)
+
+        }
+
+        return listjson;
+
+    })
+        // 추가 작성
+        .then(res => {
+            fs.writeFile('result_json.json', JSON.stringify(res), 'utf8', function (error) {  //json 파일로 저장 
+                console.log('write end');
             });
+        });
 }
 
 
@@ -254,3 +276,5 @@ function main() {//아직 페이지갯수만큼 당겨오지 않음
 // setTimeout(() => { clearInterval(timerId); alert('stop'); }, 5000); // 5초후 정지 
 main();
 // inserMysql();
+
+
