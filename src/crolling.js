@@ -4,7 +4,7 @@ const fs = require('fs');
 const { request } = require("http");
 const https = require("https");
 const sharp = require("sharp"); //이미지 처리 
-
+const mime = require("mime");
 
 const dbconfig = require('../server/db.js')(); // 위에서 생성한 MySQL에 연결을 위한 코드(모듈)
 const connection = dbconfig.init();
@@ -12,8 +12,6 @@ const connection = dbconfig.init();
 var resultList = [];
 var cnt = 0;
 var imgNum = 0
-
-
 
 
 /*이미지 로컬 저장 부분 =>
@@ -35,7 +33,6 @@ fs.readdir('poster', (err) => {
     fs.mkdirSync("poster");
   }
 });
-
 
 
 */ //<=이미지 크롤링 끝 //https://loy124.tistory.com/287 여기꺼가 생각을 많이하고 짠거같음 
@@ -148,22 +145,54 @@ const logFilename= path.join(__dirname, '/../', logDir, '/created-logfile.log);
 //     }
 //   });
 
-function imgResize(num){ // 이미지 원본을 저장할때 변경된 이미지도 저장 
 
 
-//비율을 유지하며 리사이즈 한다. width가 변경되는 비율만큼 height도 변경된다.
-// https://wedul.site/523 여기에서는 이미지를 따로 저장하지 않고 바로 크기를 변경함 
 
-    sharp("../img/goodog0.jpg")
-    .resize({fit:'fill', width:32, height:32})
-    .toFile("../img_resize/resizeDog"+imgNum+".png");
+function checkMime(imgPath){
 
+    var imgMime = mime.getType(imgPath); // lookup -> getType으로 변경됨
+    console.log('mime='+imgMime);
 
 }
 
+
+
+function imgResize(num) { // 이미지 원본을 저장할때 변경된 이미지도 저장 
+
+
+    //비율을 유지하며 리사이즈 한다. width가 변경되는 비율만큼 height도 변경된다.
+    // https://wedul.site/523 여기에서는 이미지를 따로 저장하지 않고 바로 크기를 변경함 
+    // https://darrengwon.tistory.com/565 여기도 설명이 좋은것 같다 궁금햇던것과 필요했던것 
+
+
+    //fs 리드 파일로 파일을  읽고 그 결과를 콜백으로 반환하는데 redafile 이 자동으로 버퍼로 변환함 
+var a = num
+  
+    // var fsResize = fs.readFile('../img/goodog'+a+'.jpg','utf8', function(err, data) {
+
+        // console.log(" data" + data );
+        var bf =  new Buffer.from('../img/goodog'+a+'.jpg');
+        sharp(bf)
+        .resize(32, 32)
+        //   .toFile("../img_resize/resizeDog"+imgNum+".png");
+        .toFile('"../img_resize/resizeDog'+a+'.png"', (err, info) => { 
+    
+            console.log(" 성공 " + info );
+         });
+    // });
+
+  
+   
+    // sharp(str)   
+    // .resize({fit:'fill', width:32, height:32})
+    // .toFile("../img_resize/resizeDog"+imgNum+".png");
+
+}
+
+
 function inserMysql(img) {// DB에 저장 부분 현제는 img 저장을 하고 있지만 나중에는 리사이징한 이미지를 S3에 올리고 그것을 가져올 생각중이였지만 내가 돈이어딨어?
 
-    connection.query('INSERT INTO `dog` VALUES("0","' + img + '");', (error, rows) => {  //쿼리문 
+    connection.query('INSERT INTO `dog` VALUES("0","' + img + '");', (error, rows) => {  //쿼리문 ??? 형태로 바꿔야함 
         if (error) throw error;
         else {
             console.log("insert completion");
@@ -191,13 +220,10 @@ function getHTML(url) {
 
 function imgLocalfs(url) { //원본 이미지 로컬 저장 
 
-const file = fs.createWriteStream("../img/goodog"+imgNum+".jpg");
-const request2 = https.get(url, function(response) {
-  response.pipe(file);   //입력을 출력으로 리다이렉트 할수있게 해줌 
-});
-imgResize(imgNum) // 32 사이즈로 변경 
-
-imgNum = imgNum+1
+    const file = fs.createWriteStream("../img/goodog" + imgNum + ".jpg");
+    const request2 = https.get(url, function (response) {
+        response.pipe(file);   //입력을 출력으로 리다이렉트 할수있게 해줌 
+    });
 }
 
 function main() {//아직 페이지갯수만큼 당겨오지 않음 
@@ -250,11 +276,28 @@ function main() {//아직 페이지갯수만큼 당겨오지 않음
 
             var img = a.img
             // console.log("a img " + a.img + "  img  " + img)
+            // var imgMime =checkMime(img)     //파일의 mime type 확인 
+
+            // 저장 방식의 차이 BD에 저장을 해야 많이 넣을수 있긴하지만 당장은 그냥 넣는게 나을것같다. 이미지를 받아서  s3에 올리고 다시 받아서 사용? 
+            var inserMy = inserMysql(img);  //mysql 저장  s3에 저장할거면 s3주소를 가져와야 하기 때문에 위치를 s3에서 가져온 위치 다음으로 옮겨야함 
+            var local = imgLocalfs(img);  //  원본이미지, 리사이징이미지  로컬 저장 (추후 s3저장 )
+            // var Resize32 = imgResize(imgNum) // 32 사이즈로 변경  나중에.. (추후 s3저장 )
+            imgNum = imgNum + 1 // 이미지 번호를 위한것이긴 한데 이미지명 규칙을 변경하여서 저장? 
 
 
+            /*이미지들을 크롤링해서 분류 작업을 어느 시점에서 할지 정해야 한다 
+            웹페이지에서는 url에 분류하는 방식이라 어느시점에서 해도 큰차이가 없다
+            프로그램의 순서를 
+            1 크롤링 => db 저장 =>웹페이지 , (품종별)
+            2 크롤링 => 머신러닝 =>웹페이지  (색깔별) 
+            
+            사람을 따르는가 안따르는가
+            품종
+            거리
 
-            var inserMy = inserMysql(img);  //mysql 저장
-            var local = imgLocalfs(img);  //  원본이미지, 리사이징이미지  로컬 저장
+
+            */
+            
             listjson.push(a)
 
         }
