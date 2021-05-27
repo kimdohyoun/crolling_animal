@@ -148,7 +148,7 @@ const logFilename= path.join(__dirname, '/../', logDir, '/created-logfile.log);
 
 
 
-function checkMime(imgPath){
+function checkMime(imgPath){// 이미지의 타입을 체크하는 펑션 
 
     var imgMime = mime.getType(imgPath); // lookup -> getType으로 변경됨
     console.log('mime='+imgMime);
@@ -183,7 +183,7 @@ var a = num
 
   
    
-    // sharp(str)   
+    // sharp(str)   //버퍼형태가 들어와야한다. 
     // .resize({fit:'fill', width:32, height:32})
     // .toFile("../img_resize/resizeDog"+imgNum+".png");
 
@@ -263,11 +263,12 @@ function main() {//아직 페이지갯수만큼 당겨오지 않음
             var a = {}
 
             a.id = id
-            a.name = Area
+            // a.name = Area
+            
             a.img = "https://www.animal.go.kr" + bigSrc[id]
-            a.age = list[i + 4].trim().substr(2, 5)
-            a.things = [data1, list[i + 6].trim().substr(2)]
-            a.days = 25
+            // a.age = list[i + 4].trim().substr(2, 5)
+            // a.things = [data1, list[i + 6].trim().substr(2)]
+            // a.days = 25
             a.passe = false
 
             i = i + 7;

@@ -53,6 +53,14 @@ function App() {
 
   return (
     <div className="App">
+
+
+<div className="black-nav">
+  <div className="head-nav"><h4>나만 없는 강아지</h4></div>
+</div>
+
+
+
       <nav className="navbar navbar-expand navbar-light">
           <ul className="navbar-nav">
             <li className="nav-item active">
@@ -82,10 +90,11 @@ function App() {
         )}
         <div className="bottom-buttons">
           <button onClick={()=>{
-            if (데이터.length > 현재카드번호+1){
+            if (데이터.length > 현재카드번호+1){ // 데이터의 갯수보다 현재카드번호+1이 작으면 현재카드번호랑 뭐눌럿는지 
               set현재카드번호(현재카드번호+1); set뭐눌렀냐('dislike');
             } else {
-              alert('유기견 없어 이제')
+            
+              alert('강아지는 소중해')
             }
 
             }} className="btn green"><i className="fas fa-times-circle fa-3x"></i></button>
@@ -93,30 +102,56 @@ function App() {
             if (데이터.length > 현재카드번호+1){
             set현재카드번호(현재카드번호+1); set뭐눌렀냐('like');
             }else {
-              alert('유기견 멸종')
+              alert('강아지 나도 좋아')
             }
           
           }} className="btn red"><i className="fab fa-gratipay fa-3x"></i></button>
+
+
+          
         </div>
       </div>
       
       
       }
 
+{
+  <div className="footer">
+</div>
+
+}
+
       {
       //고르는거 끝났을 때
       데이터.length < 현재카드번호+2 
-      ? (<h5 className="result">님이 입양할 친구들 : 
+      ? (
+        // <div className="result-box">
+        <div className="result">
+        {/* <h5 className="result">님이 입양할 친구들 :  */}
 
         { 고른거.map((data,i)=>{
-          return <p className="m-1">{데이터[data].name}</p>
-        }) }
+          // return <p className="m-1">{데이터[data].name}</p> //기존코드 
+          return   <img draggable="false" src={데이터[data].img != undefined ? 데이터[data].img :'https://placeimg.com/500/500/animals'} className="return-img" alt="..." />// 이름이 아니라 이미지를 보여주고싶음 
 
-      </h5>)
+        }
+        
+        
+        ) }
+
+      {/* </h5> */}
+
+   
+      </div>
+      // </div>
+     
+     
+      )
 
       : null
       }
     </div>
+
+    
   );
 }
 

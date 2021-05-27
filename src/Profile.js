@@ -21,16 +21,18 @@ console.log("props "+JSON.stringify(props.a) );
       
       >
       <img draggable="false" src={props.a.img != undefined ? props.a.img :'https://placeimg.com/500/500/animals'} className="card-img" alt="..." />
-      <div className="card-img-overlay text-left">
-        <h5 className="card-title">{props.a.name}, {props.a.age}세</h5>
-        <h5 className="card-text">
+      {/* <div className="card-img-overlay text-left"> */}
+        {/* <h5 className="card-title">{props.a.name}, {props.a.age}세</h5> */}
+        {/* <h5 className="card-title">{props.a.name}</h5> */}
+
+        {/* <h5 className="card-text">
           { props.a.things.map((item,i)=>{
             return <span key={i} className="badge badge-pill">{item}</span>
-          }) }
+          }) } */}
           
-        </h5>
-        <p className="card-text">Last updated {props.a.days} days ago</p>
-      </div>
+        {/* </h5> */}
+        {/* <p className="card-text">Last updated {props.a.days} days ago</p> */}
+      {/* </div> */}
     </div>
   )
 }
