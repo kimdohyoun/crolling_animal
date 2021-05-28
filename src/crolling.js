@@ -4,7 +4,7 @@ const fs = require('fs');
 const { request } = require("http");
 const https = require("https");
 const sharp = require("sharp"); //이미지 처리 
-const mime = require("mime");
+const mime = require("mime"); //이미지 타입 
 
 const dbconfig = require('../server/db.js')(); // 위에서 생성한 MySQL에 연결을 위한 코드(모듈)
 const connection = dbconfig.init();
@@ -148,10 +148,10 @@ const logFilename= path.join(__dirname, '/../', logDir, '/created-logfile.log);
 
 
 
-function checkMime(imgPath){// 이미지의 타입을 체크하는 펑션 
+function checkMime(imgPath) {// 이미지의 타입을 체크하는 펑션 
 
     var imgMime = mime.getType(imgPath); // lookup -> getType으로 변경됨
-    console.log('mime='+imgMime);
+    console.log('mime=' + imgMime);
 
 }
 
@@ -163,27 +163,37 @@ function imgResize(num) { // 이미지 원본을 저장할때 변경된 이미�
     //비율을 유지하며 리사이즈 한다. width가 변경되는 비율만큼 height도 변경된다.
     // https://wedul.site/523 여기에서는 이미지를 따로 저장하지 않고 바로 크기를 변경함 
     // https://darrengwon.tistory.com/565 여기도 설명이 좋은것 같다 궁금햇던것과 필요했던것 
-
+    //https://www.npmjs.com/package/sharp  npm 
 
     //fs 리드 파일로 파일을  읽고 그 결과를 콜백으로 반환하는데 redafile 이 자동으로 버퍼로 변환함 
-var a = num
-  
+    var a = num
+
     // var fsResize = fs.readFile('../img/goodog'+a+'.jpg','utf8', function(err, data) {
 
-        // console.log(" data" + data );
-        var bf =  new Buffer.from('../img/goodog'+a+'.jpg');
-        sharp(bf)
-        .resize(32, 32)
-        //   .toFile("../img_resize/resizeDog"+imgNum+".png");
-        .toFile('"../img_resize/resizeDog'+a+'.png"', (err, info) => { 
-    
-            console.log(" 성공 " + info );
-         });
-    // });
+    // console.log(" data" + data );
+    // var bf =  new Buffer.from('../img/goodog'+a+'.jpg');
+    // sharp(bf)
+    // .resize(32, 32)
+    // //   .toFile("../img_resize/resizeDog"+imgNum+".png");
+    // .toFile('"../img_resize/resizeDog'+a+'.png"', (err, info) => { 
 
-  
-   
-    // sharp(str)   //버퍼형태가 들어와야한다. 
+    //     console.log(" 성공 " + info );
+    //  });
+    // });
+                /* 단순히 버퍼 형태로 저장이 필요한 거면  axios를 사용해서 사용할수 있다. 하지만 await  구문이라서 소스 코드의 변경이 필요할수 있다. 
+                if (result.img) {
+            //imgResult에 이미지들의 버퍼형태 저장
+            const imgResult = await axios.get(result.img, {	//이미지 주소 result.img를 요청
+                responseType: 'arraybuffer',	//buffer가 연속적으로 들어있는 자료 구조를 받아온다
+            });
+            //fs로 읽어준다
+            //console에서 이미지 확장자 확인 후 같은 것으로 적용
+            fs.writeFileSync(`poster/${r.제목}.jpg`, imgResult.data);
+            }
+                */
+
+
+    // sharp(str)   //버퍼형태가 들어와야한다.  
     // .resize({fit:'fill', width:32, height:32})
     // .toFile("../img_resize/resizeDog"+imgNum+".png");
 
@@ -257,14 +267,14 @@ function main() {//아직 페이지갯수만큼 당겨오지 않음
         var listLength = list.length
 
 
-        for (i = 0; i < listLength - 7; i++) {
+        for (i = 0; i < listLength - 7; i++) { //for 문으로 작성시 나중에 변경할때 실수할 확률이 높아서 데이터의 누락이 일어날수 있다. 
             var Area = list[i + 1].trim().substr(4, 6) + "_" + list[i + 5].trim().substr(4)
             var data1 = list[i + 3].trim().substr(2)
             var a = {}
 
             a.id = id
             // a.name = Area
-            
+
             a.img = "https://www.animal.go.kr" + bigSrc[id]
             // a.age = list[i + 4].trim().substr(2, 5)
             // a.things = [data1, list[i + 6].trim().substr(2)]
@@ -282,7 +292,7 @@ function main() {//아직 페이지갯수만큼 당겨오지 않음
             // 저장 방식의 차이 BD에 저장을 해야 많이 넣을수 있긴하지만 당장은 그냥 넣는게 나을것같다. 이미지를 받아서  s3에 올리고 다시 받아서 사용? 
             var inserMy = inserMysql(img);  //mysql 저장  s3에 저장할거면 s3주소를 가져와야 하기 때문에 위치를 s3에서 가져온 위치 다음으로 옮겨야함 
             var local = imgLocalfs(img);  //  원본이미지, 리사이징이미지  로컬 저장 (추후 s3저장 )
-            // var Resize32 = imgResize(imgNum) // 32 사이즈로 변경  나중에.. (추후 s3저장 )
+            var Resize32 = imgResize(imgNum) // 32 사이즈로 변경  나중에.. (추후 s3저장 )
             imgNum = imgNum + 1 // 이미지 번호를 위한것이긴 한데 이미지명 규칙을 변경하여서 저장? 
 
 
@@ -298,7 +308,7 @@ function main() {//아직 페이지갯수만큼 당겨오지 않음
 
 
             */
-            
+
             listjson.push(a)
 
         }
