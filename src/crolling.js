@@ -234,6 +234,13 @@ function imgLocalfs(url) { //원본 이미지 로컬 저장
     const request2 = https.get(url, function (response) {
         response.pipe(file);   //입력을 출력으로 리다이렉트 할수있게 해줌 
     });
+
+    // 다른 방법 https://gracefullight.dev/2017/01/16/javascript%EB%A1%9C-%EB%A1%9C%EC%BB%AC%EC%97%90-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C/
+    /*이미지를 base64로 인고딩을 한 후 FileReader나 Canvas를 이용해서 변환할수 있다. 
+    그 후 이미지 데이터를 blob object로 변환한다. 
+    blob = new Blob([view], {type: 'imge/png'})
+    
+    */
 }
 
 function main() {//아직 페이지갯수만큼 당겨오지 않음 
