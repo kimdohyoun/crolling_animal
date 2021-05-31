@@ -14,6 +14,8 @@ var cnt = 0;
 var imgNum = 0
 
 
+
+
 /*이미지 로컬 저장 부분 =>
 
 //const xlsx =require("xlsx");
@@ -323,7 +325,7 @@ function main() {//아직 페이지갯수만큼 당겨오지 않음
         return listjson;
 
     })
-        // 추가 작성
+        // 추가 작성  //json파일에 들어가야 하는 부분이 어떤걸지, 뷰에서 보여줄 부분은 어떤것일지 . 
         .then(res => {
             fs.writeFile('result_json.json', JSON.stringify(res), 'utf8', function (error) {  //json 파일로 저장 
                 console.log('write end');
