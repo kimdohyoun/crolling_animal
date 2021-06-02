@@ -6,6 +6,11 @@ const https = require("https");
 const sharp = require("sharp"); //이미지 처리 
 const mime = require("mime"); //이미지 타입 
 
+// var im = require('imagemagick'); //이거 안댐 
+var gm = require('gm')
+
+
+
 const dbconfig = require('../server/db.js')(); // 위에서 생성한 MySQL에 연결을 위한 코드(모듈)
 const connection = dbconfig.init();
 
@@ -168,7 +173,7 @@ function imgResize(num) { // 이미지 원본을 저장할때 변경된 이미�
     //https://www.npmjs.com/package/sharp  npm 
 
     //fs 리드 파일로 파일을  읽고 그 결과를 콜백으로 반환하는데 redafile 이 자동으로 버퍼로 변환함 
-    var a = num
+
 
     // var fsResize = fs.readFile('../img/goodog'+a+'.jpg','utf8', function(err, data) {
 
@@ -182,24 +187,60 @@ function imgResize(num) { // 이미지 원본을 저장할때 변경된 이미�
     //     console.log(" 성공 " + info );
     //  });
     // });
-                /* 단순히 버퍼 형태로 저장이 필요한 거면  axios를 사용해서 사용할수 있다. 하지만 await  구문이라서 소스 코드의 변경이 필요할수 있다. 
-                if (result.img) {
-            //imgResult에 이미지들의 버퍼형태 저장
-            const imgResult = await axios.get(result.img, {	//이미지 주소 result.img를 요청
-                responseType: 'arraybuffer',	//buffer가 연속적으로 들어있는 자료 구조를 받아온다
-            });
-            //fs로 읽어준다
-            //console에서 이미지 확장자 확인 후 같은 것으로 적용
-            fs.writeFileSync(`poster/${r.제목}.jpg`, imgResult.data);
-            }
-                */
+    /* 단순히 버퍼 형태로 저장이 필요한 거면  axios를 사용해서 사용할수 있다. 하지만 await  구문이라서 소스 코드의 변경이 필요할수 있다. 
+    if (result.img) {
+//imgResult에 이미지들의 버퍼형태 저장
+const imgResult = await axios.get(result.img, {	//이미지 주소 result.img를 요청
+    responseType: 'arraybuffer',	//buffer가 연속적으로 들어있는 자료 구조를 받아온다
+});
+//fs로 읽어준다
+//console에서 이미지 확장자 확인 후 같은 것으로 적용
+fs.writeFileSync(`poster/${r.제목}.jpg`, imgResult.data);
+}
+    */
+    return new Promise(resolve => {
+        var a = num
+        console.log("a == " + a)
+        resolve(a)
+        // fs.readFile('../img/goodog'+a+'.jpg','utf8', function(err, data) {
+        //     resolve(data)
+        // })
+    }).then(function (a) {
+        // im.resize({
+        //     srcPath: '../img/goodog'+a+'.jpg',
+        //     dstPath: '../img_resize/resizeDog'+a+'.jpg',
+        //     width: 256
+        //  }, function(err, stdout, stderr) {
+        //     if(err) throw err
+        //     console.log('resized image to fit within 256 x 256px');
+        //  });
+        gm('../img/goodog' + a + '.jpg')
+            .options({ imageMagick: true })
+            .resize(32, 32)
+            .write('../img_resize/resizeDog' + a + '.jpg', function (err) {
+                if (!err) {
+                    console.log("this will be the resized image : resize.jpg");
+                }
+            })
+        // var bf =  new Buffer.from('../img/goodog'+a+'.jpg');
+        // // resolve()의 결과 값이 여기로 전달됨
+        // console.log("url  "+bf); // $.get()의 reponse 값이 tableData에 전달됨
+        //  sharp(bf)   //버퍼형태가 들어와야한다.  
+        // .resize({fit:'fill', width:32, height:32})
+        // .toFile("../img_resize/resizeDog"+a+".jpg")
+    });
 
 
-    // sharp(str)   //버퍼형태가 들어와야한다.  
-    // .resize({fit:'fill', width:32, height:32})
-    // .toFile("../img_resize/resizeDog"+imgNum+".png");
+    ;
+
+
 
 }
+
+// 이미지를 다운받아서 url을 생성해 주고 그 url을 가져다 쓴후 폴더를 삭제하는 것이 있다고 함 . 
+
+
+
 
 
 function inserMysql(img) {// DB에 저장 부분 현제는 img 저장을 하고 있지만 나중에는 리사이징한 이미지를 S3에 올리고 그것을 가져올 생각중이였지만 내가 돈이어딨어?
@@ -294,15 +335,12 @@ function main() {//아직 페이지갯수만큼 당겨오지 않음
             id = id + 1
 
 
-            var img = a.img
+            // var img = a.img
             // console.log("a img " + a.img + "  img  " + img)
             // var imgMime =checkMime(img)     //파일의 mime type 확인 
 
             // 저장 방식의 차이 BD에 저장을 해야 많이 넣을수 있긴하지만 당장은 그냥 넣는게 나을것같다. 이미지를 받아서  s3에 올리고 다시 받아서 사용? 
-            var inserMy = inserMysql(img);  //mysql 저장  s3에 저장할거면 s3주소를 가져와야 하기 때문에 위치를 s3에서 가져온 위치 다음으로 옮겨야함 
-            var local = imgLocalfs(img);  //  원본이미지, 리사이징이미지  로컬 저장 (추후 s3저장 )
-            var Resize32 = imgResize(imgNum) // 32 사이즈로 변경  나중에.. (추후 s3저장 )
-            imgNum = imgNum + 1 // 이미지 번호를 위한것이긴 한데 이미지명 규칙을 변경하여서 저장? 
+
 
 
             /*이미지들을 크롤링해서 분류 작업을 어느 시점에서 할지 정해야 한다 
@@ -324,13 +362,31 @@ function main() {//아직 페이지갯수만큼 당겨오지 않음
 
         return listjson;
 
-    })
-        // 추가 작성  //json파일에 들어가야 하는 부분이 어떤걸지, 뷰에서 보여줄 부분은 어떤것일지 . 
-        .then(res => {
+    }).then(res =>{//  원본이미지 로컬 저장 (추후 s3저장 )
+        res.forEach(function(data, idx){
+            mgLocalfs(data.img)
+        })
+        return res;
+    }).then( res =>{  //mysql 저장  s3에 저장할거면 s3주소를 가져와야 하기 때문에 위치를 s3에서 가져온 위치 다음으로 옮겨야함 
+        res.forEach(function(data, idx){
+            inserMysql(data.img)
+            imgNum = imgNum + 1
+            // console.log("res "+ JSON.stringify(data.img)  )
+        })
+            return res;
+        } ) 
+        .then( res =>{  //32 사이즈로 변경  나중에.. (추후 s3저장 )
+            res.forEach(function(data, idx){
+                imgResize(data.img)
+            })
+                return res;
+            } ) 
+    // 추가 작성  //json파일에 들어가야 하는 부분이 어떤걸지, 뷰에서 보여줄 부분은 어떤것일지 . 
+        .then(res => { //제이손 파일로 저장 
             fs.writeFile('result_json.json', JSON.stringify(res), 'utf8', function (error) {  //json 파일로 저장 
                 console.log('write end');
             });
-        });
+        })
 }
 
 
