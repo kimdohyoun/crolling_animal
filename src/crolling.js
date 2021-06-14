@@ -210,7 +210,6 @@ function inserMysql(img) {// 나중에는 리사이징한 이미지를 S3에 올
     connection.query(sql, params, function (error, rows) {
         if (error) throw error;
         else {
-            
             console.log("insert completion" + rows);
         }
     });
@@ -264,9 +263,9 @@ searchKindCd=&
 searchState=protect& // 보호중인것만 
 &page=11   //페이지 ㄱ분 
 */
-    
 }
 
+// 메인에서 분리 해 와야함 
 function main() {//아직 페이지갯수만큼 당겨오지 않음 
     var result = [];
     var firstDate = "2021-04-23"
