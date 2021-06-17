@@ -7,7 +7,7 @@ import arratData from "./result_json"
 // const newArratData = arratData
 // const fs = require('fs');
 
-function App() {
+function App() {  //es6 destructuring 문법 
   let [step, setStep] = useState(0);
   let [현재카드번호, set현재카드번호] = useState(-1);
   let [뭐눌렀냐, set뭐눌렀냐] = useState('like');
@@ -62,8 +62,6 @@ function App() {
   <div className="head-nav"><h4>나만 없는 강아지</h4></div>
 </div>
 
-
-
       <nav className="navbar navbar-expand navbar-light">
           <ul className="navbar-nav">
             <li className="nav-item active">
@@ -80,7 +78,6 @@ function App() {
             </li>
           </ul>
       </nav>
-      
       { 
       
       //첫로드시 카드, 버튼 보여주기
