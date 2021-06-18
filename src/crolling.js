@@ -271,13 +271,36 @@ function main() {//아직 페이지갯수만큼 당겨오지 않음
     var firstDate = "2021-04-23"
     var lastDate = "2021-04-23"
     var searchUprCd = "" //  searchUprCd=6260000& 지역번호 
-    var url = "https://www.animal.go.kr/front/awtis/protection/protectionList.do?totalCount=4466&pageSize=10&boardId=&desertionNo=&menuNo=1000000060&"
-        + "searchSDate=" + firstDate + "&searchEDate=" + lastDate + "&searchUprCd=&searchOrgCd=&searchCareRegNo=&searchUpKindCd=417000&searchKindCd=&searchState=protect&page=4#moreBtn"
+    // var url = "https://www.animal.go.kr/front/awtis/protection/protectionList.do?totalCount=4466&pageSize=10&boardId=&desertionNo=&menuNo=1000000060&"
+    //     + "searchSDate=" + firstDate + "&searchEDate=" + lastDate + "&searchUprCd=&searchOrgCd=&searchCareRegNo=&searchUpKindCd=417000&searchKindCd=&searchState=protect&page=4#moreBtn"
+
+    var url ="https://www.animal.go.kr/front/awtis/protection/protectionList.do"
+    var serchUrl = ""
     // for(var j=0;j<result.length;j++){
     //1페이지에 10개 총갯수 가 52건이면 6페이지 
+    
+    /*
+    페이지에 접속하면 조회 버튼의 이벤트를 강제로 실행해서 url 주소를 받아온다 .
+    $("#my-btn").trigger("click")
+    document.getElementById("my-btn")[0].click();   search_button
+    출처 :  https://6developer.com/6
+
+    현제 웹 페이지 URL 주소 가져오는것 
+    window.location.href 
+    */
+
 
     getHTML(url).then(html => { // 프로미스 시작 
         // let result = {};
+        var urldata = html.data
+        console.log("urldata " + urldata)
+
+        fs.writeFile('html.html', JSON.stringify(urldata), 'utf8', function (error) {  //json 파일로 저장 
+            console.log('write urldata');
+        });   // HTML중 데이터 항목을 저장 
+
+
+        console.log("get url "+window.location.href )
         const $ = cheerio.load(html.data);
 
         var text = $("body").find(".txt").text();
@@ -345,6 +368,16 @@ function main() {//아직 페이지갯수만큼 당겨오지 않음
 
 // let timerId = setInterval(() => alert('tick'), 2000);  //부여된 시간 간격으로 주기적으로 실행 
 // setTimeout(() => { clearInterval(timerId); alert('stop'); }, 5000); // 5초후 정지 
+
+// function geturl (){  기본주소로 접속 후 조ㅚ 버튼을 눌러서 url 데이터를 가져오려고 했으나 실패 
+
+//     var gurl  ="https://www.animal.go.kr/front/awtis/protection/protectionList.do"
+//     document.getElementById("search_button")[0].click();   
+//     var getURL = window.location.href 
+
+//     console.log("getURL "+getURL)
+// }
+// geturl(); 
 main();
 // inserMysql();
 

@@ -1,0 +1,1321 @@
+<!--  // HTML중 데이터 항목을 저장  // tr tt t tttt 등 여러가지 항목들을 변경하였다. 이런것을 해주는 사이트를 해줘도 좋지않을까 ? -->
+
+<!-- <!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta hp-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta hp-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>
+        동물보호관리시스템</title>
+    <meta hp-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta hp-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0,
+        minimum-scale=1.0" />
+    <script>var contextPath = "/front";
+        function getModeCookie(name) {
+            var cookies = document.cookie.split(";"); for (var i = 0; i < cookies.length; i++) {
+                if (cookies[i].indexOf("=") == -1) {
+                    if (name == cookies[i]) return "";
+                }
+                else {
+                    var crumb = cookies[i].split("=");
+                    if (name == crumb[0].trim())
+                        return unescape(crumb[1].trim());
+                }
+            }
+        };
+
+        var desktopModeTF = getModeCookie("DesktopMode");
+        var Scale = getModeCookie("DesktopModeScale");
+        var defWidth = 1250; if (desktopModeTF == "true") {
+            document.write('<meta name="viewport" content="width=' + defWidth + ', user-scalable=yes, initial-scale=' + Scale + '">');
+        } else {
+            document.write('<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">');
+        }
+
+        function desktopMode() {
+            if (getModeCookie("DesktopMode") == "true") {
+                setModeCookie(false);
+            } else {
+                setModeCookie(true); window.scrollTo(0, 0);
+            }
+            location.reload();
+        }
+
+        function setModeCookie(switchOn) {
+            var now = new Date(); var time = now.geime(); time += 3600 * 1000; now.seime(time);
+            document.cookie = 'DesktopMode=' + switchOn + ';';// expires=' + now.toUTCString() ;   
+            if (switchOn) {
+                document.cookie = "DesktopModeScale=" + $('html').width() / defWidth + ';';// expires=' + now.toUTCString(); 
+            }
+        }
+    </script>
+
+    <script type="text/javascript"
+        src="/front/js/jquery-1.7.2.min.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/jquery-ui-1.8.20.custom.min.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/jquery.form.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/jquery.blockUI.custom.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/jquery.timer.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/application.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/message_resources/ko.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/menu.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/jquery.json-2.2.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/json.min.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/jquery.smartPop.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/jcarousellite_1.0.1.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/jquery.mousewheel.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/form.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <link rel="stylesheet"
+        href="/front/css/common.css;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front" />
+
+    <link rel="stylesheet"
+        href="/front/css/sub.css;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front" />
+
+    <link rel="stylesheet"
+        href="/front/css/bbs.css;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front" />
+
+    <script type="text/javascript"
+        src="/front/js/jquery-1.11.0.min.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/common.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/main.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/calendar/calendar.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/calendar/lang/calendar-ko-utf8.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <script type="text/javascript"
+        src="/front/js/calendar/calendar-setup.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+    <link
+        href="/front/js/calendar/calendar-system.css;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"
+        rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+
+        ajaxErrorHandler();
+
+        $(function () {
+            Calendar.setup({
+                inputField: "searchSDate", eventName: "click", ifFormat: "%Y-%m-%d", showOthers: true, showsTime: false, cache: true
+            });
+
+            Calendar.setup({
+                inputField: "searchEDate", eventName: "click", ifFormat: "%Y-%m-%d", showOthers: true, showsTime: false, cache: true
+            });
+            $('#searchSDate, #searchEDate').focus(function () {
+                //20200407 ksg 웹접근성 수정           
+                //$(this).trigger('click');     
+            });        //시군    
+            $("#searchUprCd").on("change", function () {
+                var orgCd = $("#searchOrgCd");
+                var thisValue = $(this).val();
+                var optionHtml = "";
+                orgCd.find("option").remove();
+                optionHtml = "<option value=''>전체</option>";    //시도가 변경되면 보호센터도 초기화 한다. 
+                $("#searchCareRegNo").find("option").remove();
+                $("#searchCareRegNo").append("<option value=''>전체</option>");
+                if (thisValue != "") {
+                    $.ajax({
+                        async: false,
+                        type: "post",
+                        url: '/front/awtis/comm/selectComOrganTGunList.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front', data: "uprCd=" + thisValue, dataType: "json", success: function (dataObj) {
+                            var data = dataObj.data;
+                            if (data.length <= 0) {
+
+                            } else {
+                                optionHtml1 = "<option value=''>전체</option>";
+                                optionHtml2 = "";
+                                for (var i = 0; i < data.length; i++) {
+
+                                    var codeType = data[i].orgCd;
+                                    var codeTypeName = data[i].orgdownNm;
+                                    if (codeTypeName == "개별사업") {
+                                        optionHtml2 = "<option value='" + codeType + "'>서울시 전체</option>" + optionHtml2;
+                                    } else {
+                                        optionHtml2 += "<option value='" + codeType + "'>" + codeTypeName + "</option>";
+                                    }
+                                } optionHtml = optionHtml1 + optionHtml2;
+                            }
+                        }
+                    });
+
+                } orgCd.append(optionHtml);
+            });
+            //보호센터     
+            $("#searchOrgCd").on("change", function () {
+                var htmlId = $("#searchCareRegNo");
+                var searchUprCd = $("#searchUprCd").val();
+                var searchOrgCd = $("#searchOrgCd").val();
+                var optionHtml = "";
+                htmlId.find("option").remove();
+                optionHtml = "<option value=''>전체</option>";
+                if (searchOrgCd != "") {
+                    $.ajax({
+                        async: false, type: "post", url: '/front/awtis/comm/selectShelterList.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front', data: "searchUprCd=" + searchUprCd + "&searchOrgCd=" + searchOrgCd, dataType: "json", success: function (dataObj) {
+                            var data = dataObj.data;
+                            if (data.length <= 0) { } else {
+                                optionHtml = "<option value=''>전체</option>";
+                                for (var i = 0; i < data.length; i++) {
+                                    var codeType = data[i].careRegNo;
+                                    var codeTypeName = data[i].careNm;
+                                    optionHtml += "<option value='" + codeType + "'>" + codeTypeName + "</option>";
+                                }
+                            }
+                        }
+                    });
+                } htmlId.append(optionHtml);
+            });
+            //품종        
+            $("#searchUpKindCd").on("change", function () {
+                var kindCd = $("#searchKindCd");
+                var thisValue = $(this).val();
+                var optionHtml = "";
+                kindCd.find("option").remove();
+                optionHtml = "<option value=''>전체</option>";
+                if (thisValue != "") {
+                    $.ajax({
+                        async: false, type: "post", url: '/front/awtis/comm/selectComKindList.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front',
+                        data: "upKindCd=" + thisValue,
+                        dataType: "json",
+                        success: function (dataObj) {
+                            var data = dataObj.data;
+                            if (data.length <= 0) { }
+                            else {
+                                optionHtml = "<option value=''>전체</option>";
+                                for (var i = 0; i < data.length; i++) {
+                                    var codeType = data[i].kindCd;
+                                    var codeTypeName = data[i].kNm;
+                                    optionHtml += "<option value='" + codeType + "'>" + codeTypeName + "</option>";
+                                }
+                            }
+                        }
+                    });
+                }
+                kindCd.append(optionHtml);
+            });
+            //조회버튼        
+            $("#search_buon").on("click", function () {            /* JYJ 2019.08.23 날짜 형식 체크 추가 시작 */
+                if (!dtPaernCheck($("#searchSDate").val())) {
+                    alert("시작일자 날짜 형식이 올바르지 않습니다..");
+                    return false;
+                } if (!dtPaernCheck($("#searchEDate").val())) {
+                    alert("종료일자 날짜 형식이 올바르지 않습니다..");
+                    return false;
+                }            /* JYJ 2019.08.23 날짜 형식 체크 추가 끝 */
+                if ($("#searchSDate").val() > $("#searchEDate").val()) {
+                    alert("검색 시작일자가 또는 검색 종료일자가 올바르지 않습니다.n(시작일자보다 종료일자가 빠름)");
+                    return;
+                } $("input[name='page']").val(1);
+                $("#searchList").ar("onsubmit", "");
+                $("#searchList").submit();
+            });
+            var nowDate = new Date();
+            var nYear = nowDate.getFullYear();
+            //오늘의 년도     
+            var nMonth = nowDate.getMonth() + 1;
+            //오늘의 월 ※ 0월부터 시작     
+            var nDate = nowDate.getDate();
+            //오늘의 날       
+            if (nMonth < 10) nMonth = '0' + nMonth;
+            if (nDate < 10) nDate = '0' + nDate;
+            var nowDt = "" + nYear + "-" + nMonth + "-" + nDate;
+            nowDate.setMonth(nowDate.getMonth() - 1);
+            var sYear = nowDate.getFullYear();
+            //오늘의 년도        
+            var sMonth = nowDate.getMonth() + 1;
+            //오늘의 월 ※ 0월부터 시작     
+            var sDate = nowDate.getDate();
+            //오늘의 날      
+            if (sMonth < 10) sMonth = '0' + sMonth;
+            if (sDate < 10) sDate = '0' + sDate;
+            var setDt = "" + sYear + "-" + sMonth + "-" + sDate;
+            var searchSDate = "";
+            if (searchSDate == "") {
+                searchSDate = setDt;
+            } var searchEDate = "";
+            if (searchEDate == "") {
+                searchEDate = nowDt;
+            }        //조회조건세팅       
+            $("#searchSDate").val(searchSDate);
+            $("#searchEDate").val(searchEDate);
+            $("#searchUprCd").val("");
+            $("#searchUprCd").trigger("change");
+            $("#searchOrgCd").val("");
+            $("#searchOrgCd").trigger("change");
+            $("#searchCareRegNo").val("");
+            $("#searchUpKindCd").val("");
+            $("#searchUpKindCd").trigger("change");
+            $("#searchKindCd").val("");
+        });
+        //상세조회, 보안취약점 위배사항으로 get->post 방식변경    
+        function moveUrl(desertionNo) {
+            var $moveForm = $("#searchList");
+            $("#desertionNo", $moveForm).val(desertionNo);
+            $("#searchList").ar("onsubmit", "");
+            $("#searchList").ar("action", "protectionDtl.do");
+            $("#searchList").submit();
+        }        /* JYJ 2019.08.23 날짜 형식 체크 함수 추가 */    function dtPaernCheck(dt) {
+            var paern = /[0-9]{4}-([0][1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])/;
+            return paern.test(dt);
+        }</script>
+
+</head>
+
+<body>
+    /* wrapper 전체감싸주기 시작 */
+    <div id="wrap">
+        /* 헤더 영역 시작 */
+        <script type="text/javascript">$(function () {
+
+                $('#pQuery_tmp').keypress(function (event) {
+                    if (event.keyCode == 13) {
+
+                        fnBtnSearch(); return false;
+                    }
+                });
+            });     //통합검색r   
+
+            function fnBtnSearch() {
+                var pDbNo = $("#pDbNo").val();
+                var pQuery_tmp = $("#pQuery_tmp").val();
+                if (pQuery_tmp == "") {
+                    alert("검색어를 입력하세요.");
+                    $("#pQuery_tmp").focus();
+                    return false;
+                }                //jyj 2019.07.26 특수문자 입력 체크 로직 추가r       
+                if (isIncludeSpecialChar($("#pQuery_tmp").val())) {
+
+                    alert('검색어는 특수문자를 입력할 수 없습니다.');
+
+                    $("#pQuery_tmp").focus(); return;
+                }
+
+                if (searchFrmHeader(pQuery_tmp) == true) {
+                    $("#pQuery_tmp").val("");
+                }        /*$("#pQuery").val(replaceXSS( "I" , pQuery_tmp));      
+          $("#searchFrmHeader").ar("onsubmit","");       
+         $("#searchFrmHeader").ar("action","/itrinity/search.s");    
+            $("#searchFrmHeader").ar("target","_blank");    
+            $("#searchFrmHeader").submit();        */}
+
+            function searchFrmHeader(pQuery_tmp) {
+                $("#pQuery").val(replaceXSS("I", pQuery_tmp));
+                $("#searchFrmHeader").ar("onsubmit", "");
+                $("#searchFrmHeader").ar("action", "/itrinity/search.s");
+                $("#searchFrmHeader").ar("target", "_blank");
+                $("#searchFrmHeader").submit(); return true;
+            }    //RFID검색r   
+            function fnBtnRfid() {
+                var searchType = $("#searchType").val();
+                var searchText = $("#searchText").val();
+                if (searchText == "") {
+                    alert("등록번호, RFID를 입력하세요.1");
+                    $("#searchText").focus(); return false;
+                }
+                $("#searchFrmHeader").ar("onsubmit", "");
+                $("#searchFrmHeader").ar("action", "/front/awtis/record/searchRrecordConfirm.do");
+                $("#searchFrmHeader").submit();
+            }
+            function openRegAnimalModify() {
+                window.open("/front/popup_reg_animal_modify.do", "popup_open", "left=100, top=100,width=970,height=600, toolbar=no, menubar=no, statusbar=no, scrollbars=yes, resizable=no");
+            }
+            function subName(str) {
+                var substr = '';
+                if (str.length > 13) { substr = str.substr(0, 13) + '...'; }
+                else { substr = str; }
+                return substr;
+            }</script>
+
+        /* HEADER */
+        /* UTILL */ <div id="top_wrap">
+            <h1 style="display:none">로그인 및 시스템 이동 영역</h1> <a href="#content" id="skipnavi">본문 바로가기</a>
+            <div id="top">
+                <ul class="utill-left">
+                    <li><a href="/front/community/show.do?boardId=contents&seq=53&menuNo=1000000058"
+                            class="adoptLink">반려동물 입양안내 바로가기</a></li>
+                    <li style="margin-right:5px;"> <a href="/login/login_index.jsp" class="adoptLink2"
+                            target="_blank">업무시스템(공무원,대행기관)
+                            바로가기</a> </li>
+                    <li><a href="/aec/" class="adoptLink3" target="_blank">동물실험윤리위원회
+                            바로가기</a></li>
+                </ul>
+                <ul class="utill">
+                    <li><a href="/front/awtis/login/login.do?menuNo=8000200006" class="loginBtn">로그인</a></li>
+                    <li><a href="/front/awtis/join/joinInfo.do?menuNo=8000200008" class="joinBtn">회원가입</a></li>
+                    <li><a href="/front/awtis/join/idPwdFind.do?menuNo=8000300006" class="idFind">아이디/비밀번호 찾기</a>
+                    </li>
+                </ul> <span class="utillBtn">회원메뉴</span>
+            </div>
+        </div>
+        /* UTILL */
+        /* LOGO */ <div id="logo_wrap">
+            <h1><a href="/front/index.do" title="메인페이지로 이동">동물보호관리시스템</a></h1>
+            <ul class="animalInfoChange"> t<li><input type="buon" value="등록동물정보 연결 및 변경방법"
+                        onclick="openRegAnimalModify();" title="새 창 열림"></li>
+            </ul>
+            <ul class="headerMenu">
+                <li><a href="/front/awtis/mypage/jusoChangeList.do?menuNo=8000300008" class="menu01">주소변경온라인
+                        신청하기</a></li>
+                <li><a href="/front/awtis/mypage/registAnimalList.do?menuNo=8000300009" class="menu02">동물등록증 출력하기</a>
+                </li>
+            </ul>
+            <form id="searchFrmHeader" name="searchFrmHeader" action="/itrinity/search.s" method="post"> <span
+                    class="top_search">
+                    <select name="pDbNo" id="pDbNo" class="search_sbox" title="검색항목선택">
+                        <option value="">전체
+                        </option>
+                        <option value="1">법령및정책</option>
+                        <option value="2">정보공개</option>
+                        <option value="3">
+                            정책정보</option>
+                        <option value="4">농장동물자료마당</option>
+                        <option value="5">교육안내
+                        </option>
+                    </select> <input type="text" name="pQuery_tmp" id="pQuery_tmp" maxlength="25" value=""
+                        title="검색어입력" /> <input type="hidden" name="pQuery" id="pQuery" /> <input type="hidden"
+                        name="pQuery" id="pQuery_my" /> <input type="buon" value="" class="t_search02"
+                        onclick="fnBtnSearch()" title="검색어 검색(새 창열림)" /> </span> </form> <span
+                class="allMenu">전체메뉴</span>
+        </div>
+        /* LOGO */
+        /* GNB */ <div id="gnb_wrap">
+            <h2 class="hide">주메뉴</h2>
+            <div class="snbBox" style="display:none">
+                <p>전체메뉴
+                </p> <span class="allMenu_close">닫기</span>
+            </div>
+            <div id="gnb">
+                <ul>
+                    <li id="navi0"> <a href="/front/awtis/public/publicList.do?menuNo=1000000055"
+                            id="mImgNavi0">유실유기동물</a>
+                        <ul class="submenu" style="display:none">
+                            <li><a href="/front/awtis/public/publicList.do?menuNo=1000000055">공고</a></li>
+                            <li><a href="/front/awtis/protection/protectionList.do?menuNo=1000000060">보호중 동물</a>
+                            </li>
+                            <li><a href="/front/awtis/institution/institutionList.do?menuNo=1000000059">동물보호센터</a>
+                            </li>
+                            <li><a href="/front/community/show.do?boardId=contents&seq=53&menuNo=1000000058">입양
+                                    안내</a></li>
+                            <li><a href="/front/community/show.do?boardId=contents&seq=209&menuNo=1000000056">습득시
+                                    안내</a></li>
+                            <li><a href="/front/awtis/loss/lossList.do?menuNo=1000000057">분실신고</a></li>
+                        </ul>
+                    </li>
+                    <li id="navi1"> <a href="/front/community/show.do?boardId=contents&seq=66&menuNo=2000000016"
+                            id="mImgNavi1">동물등록</a>
+                        <ul class="submenu" style="display:none">
+                            <li><a href="/front/community/show.do?boardId=contents&seq=66&menuNo=2000000016">동물등록제란?</a>
+                            </li>
+                            <li><a href="/front/awtis/record/recordConfirmList.do?menuNo=2000000011">등록동물검색</a></li>
+                            <li><a href="hps://eminwon.qia.go.kr/intro/Quarantine/MicronoSearch.jsp?menuNo=2000000017"
+                                    target="_blank">해외동물등록번호 조회</a></li>
+                            <li><a href="/front/awtis/record/recordAgencyList.do?menuNo=2000000002">등록대행업체</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li id="navi2">
+                        <a href="/front/community/show.do?boardId=contents&seq=144&menuNo=3000000017"
+                            id="mImgNavi2">농장동물</a>
+                        <ul class="submenu" style="display:none">
+                            <li><a href="/front/community/show.do?boardId=contents&seq=144&menuNo=3000000017">농장동물
+                                    복지
+                                    개요</a></li>
+                            <li><a href="/front/community/show.do?boardId=contents&seq=170&menuNo=3000000018">동물복지축산농장
+                                    인증제</a></li>
+                            <li><a href="/front/community/show.do?boardId=contents&seq=79&menuNo=3000000019">동물복지축산농장
+                                    인증 절차</a></li>
+                            <li><a href="/front/community/show.do?boardId=contents&seq=131&menuNo=3000000020">동물복지축산농장
+                                    인증 표시</a></li>
+                            <li><a href="/front/awtis/cerification/cerificationList.do?menuNo=3000000012">동물복지축산농장
+                                    검색</a></li>
+                            <li><a href="/front/community/index.do?boardId=boardID04&menuNo=3000000021">동물복지축산농장
+                                    자료실</a></li>
+                            <li><a href="/front/awtis/farm/saleList.do?menuNo=3000000022">동물복지축산물 판매처</a></li>
+                            <li><a href="/front/awtis/farm/dealList.do?menuNo=3000000025">동물복지축산물 농장 직거래</a></li>
+
+                        </ul>
+                    </li>
+                    <li id="navi3">
+                        <a href="/front/community/show.do?boardId=contents&seq=1&menuNo=4000000028"
+                            id="mImgNavi3">TNR</a>
+                        <ul class="submenu" style="display:none">
+                            <li><a href="/front/community/show.do?boardId=contents&seq=1&menuNo=4000000028">길고양이
+                                    중성화
+                                    사업</a></li>
+                            <li><a href="/front/awtis/roadCat/roadCatList.do?menuNo=4000000027">길고양이 중성화사업(TNR)
+                                    조회</a></li>
+                        </ul>
+                    </li>
+                    <li id="navi4"> <a href="/front/community/show.do?boardId=contents&seq=92&menuNo=5000000001"
+                            id="mImgNavi4">정보마당</a>
+                        <ul class="submenu" style="display:none">
+                            <li><a href="/front/community/show.do?boardId=contents&seq=92&menuNo=5000000001">일반정보</a>
+                            </li>
+                            <li><a href="/front/community/show.do?boardId=contents&seq=105&menuNo=5000000013">건강정보</a>
+                            </li>
+                            <li><a href="/front/awtis/relevant/relevantList.do?menuNo=5000000014">동물보호 업무
+                                    부서</a></li>
+                            <li><a href="hps://www.epeople.go.kr?menuNo=5000000015" target="_blank">온라인 민원신청</a>
+                            </li>
+                            <li><a href="/front/awtis/faq/faqList.do?menuNo=5000000016">동물등록 FAQ</a></li>
+                            <li><a href="/front/community/show.do?boardId=contents&seq=310105&menuNo=5000000017">무선식별장치
+                                    공급업체</a></li>
+                        </ul>
+                    </li>
+                    <li id="navi5"> <a href="/front/community/show.do?boardId=contents&seq=118&menuNo=6000000001"
+                            id="mImgNavi5">업체정보</a>
+                        <ul class="submenu" style="display:none">
+                            <li><a href="/front/community/show.do?boardId=contents&seq=118&menuNo=6000000001">개요</a>
+                            </li>
+                            <li><a href="/front/awtis/shop/hospitalList.do?menuNo=6000000002">동물병원</a></li>
+                            <li><a href="/front/awtis/shop/salesList.do?sWrkCd=C&menuNo=6000000004">동물생산업</a></li>
+                            <li><a href="/front/awtis/shop/salesList.do?sWrkCd=B&menuNo=6000000005">동물수입업</a></li>
+                            <li><a href="/front/awtis/shop/salesList.do?sWrkCd=A&menuNo=6000000009">동물판매업</a></li>
+                            <li><a href="/front/awtis/shop/salesList.do?sWrkCd=D&menuNo=6000000010">동물전시업</a></li>
+                            <li><a href="/front/awtis/shop/salesList.do?sWrkCd=E&menuNo=6000000128">동물위탁관리업</a>
+                            </li>
+                            <li><a href="/front/awtis/shop/salesList.do?sWrkCd=G&menuNo=6000000129">동물운송업</a></li>
+                            <li><a href="/front/awtis/shop/salesList.do?sWrkCd=F&menuNo=6000000130">동물미용업</a></li>
+                            <li><a href="/front/awtis/shop/undertaker1List.do?menuNo=6000000131">동물장묘업</a></li>
+
+                        </ul>
+                    </li>
+                    <li id="navi6">
+                        <a href="/front/community/show.do?boardId=contents&seq=183&menuNo=7000000001"
+                            id="mImgNavi6">정책홍보</a>
+                        <ul class="submenu" style="display:none">
+                            <li><a href="/front/community/show.do?boardId=contents&seq=183&menuNo=7000000001">시스템
+                                    소개</a></li>
+                            <li><a href="/front/community/index.do?boardId=boardID01&menuNo=7000000002">법령 및 정책</a>
+                            </li>
+                            <li><a href="/front/awtis/edu/eduList.do?menuNo=7000000003">교육안내</a></li>
+                            <li><a href="/front/community/show.do?boardId=contents&seq=196&menuNo=7000000004">동물보호
+                                    명예감시원</a></li>
+                            <li><a href="/front/community/index.do?boardId=boardID03&menuNo=7000000005">정보공개</a></li>
+                            <li><a href="/front/community/index.do?boardId=boardID06&menuNo=7000000006">공지사항</a>
+                            </li>
+                            <li><a href="/front/community/index.do?boardId=boardID07&menuNo=7000000008">홍보자료</a>
+                            </li>
+                            <li><a href="/front/community/show.do?boardId=contents&seq=157&menuNo=7000000007">동물학대방지</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sitemap"> <a href="/front/awtis/sitemap/sitemap.do?menuNo=8000200002"
+                            title="사이트맵으로 이동">전체메뉴</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        /* GNB */
+        /* HEADER */
+        /* //헤더 영역 끝 */
+        /* VISUAL */
+        <div class="visual_wrap">
+            <div class="visual">
+                <dl>
+                    <dt></dt>
+                    <dd>
+                        농림축산식품부는 유기동물관리에서 동물등록에 이르기까지 동물보호 업무 전반을 통합적으로 관리하기 위해 각 시도(시군구)의 동물보호업무 담당부서와 연계하여 동물보호관리시스템을
+                        운영하고 있습니다.</dd>
+                </dl>
+            </div>
+        </div>
+        /* VISUAL */
+        /* 콘텐츠 전체 시작 */
+        /* content 영역 */
+        <div id="contents">
+            /* Left 시작 */
+            <script>$(document).ready(function () { });
+
+
+                $(function () {
+
+                    var sessionMenuNo = "0";
+
+                    $(".leftbg_2depth[data-key=" + sessionMenuNo + "]").addClass("active")
+                    $(".leftbg_2depth[data-child=" + sessionMenuNo + "]").addClass("active")
+
+                    console.log("kr.or.epis.persistence.vo.AccountVO@d4afee[seq=0,groupCode=GRO0000,group=kr.or.epis.persistence.vo.GroupVO@6f084d28[code=GRO0000,name=일반사용자,description=<null>,supervise=true,sessionTimeout=1800000,disabledAt=<null>,createdAt=<null>,updatedAt=<null>,mode=<null>,tmpCd=0,codes=<null>,searchName=<null>,column=<null>,keyword=<null>,pageSize=0,page=1,sort=<null>,keywordType=<null>,detailYn=<null>,bgroup=<null>,bgroupSeq=<null>,contact=<null>,department=<null>],menuNo=0,menuType=<null>,mode=<null>,accountId=<null>,pass=<null>,encryptedPass=<null>,name=<null>,emailId=<null>,emailHost=<null>,tel1=,tel2=,tel3=,hp1=,hp2=,hp3=,zipcodePrimary=,zipcodeSecondary=,address=,addressDetail=,userAagent=axios/0.21.1,remoteIp=123.142.68.61,locale=ko_KR,usable=true,createdAt=<null>,updatedAt=<null>,logCountAt=true,groupName=,authorCode=<null>,seqs=<null>,accountId2=,pass2=,searchColumn=,column=<null>,keyword=<null>,pageSize=0,page=1,sort=<null>,keywordType=<null>,detailYn=<null>,bgroup=<null>,bgroupSeq=<null>,contact=<null>,department=<null>]")
+
+                });
+
+                $(function () {
+                    var sessionMenuNo = "0"; $("#subleft ul li").each(function (i) {
+                        var path = $(this).ar("id"); if (path.indexOf(sessionMenuNo) > 0) {
+                            var tmpPath = path; var ids = path.split("_");
+
+                            for (var i = ids.length - 1; i > 1; i--) { $("#" + tmpPath).removeClass("leftbg_" + (i) + "depth"); $("#" + tmpPath).addClass("leftbg_" + (i) + "depth_on current"); mpPath = tmpPath.replace("_" + ids[i], ""); }
+                        }
+                    }); $(".area_4depth").css("display", "none"); var selected = "";
+
+                    $("[class^=leftbg_2depth]").each(function () {
+
+                        var className = $(this).ar("class");
+
+                        if ("leftbg_2depth_on" == className) { tselected = $(this).ar("id"); }
+                    });
+
+                    $(".leftbg_2depth").mouseover(function () { $(this).removeClass("leftbg_2depth"); $(this).addClass("leftbg_2depth_on"); }); $(".leftbg_2depth").mouseout(function () { $(this).removeClass("leftbg_2depth_on"); $(this).addClass("leftbg_2depth"); });
+                });</script>
+
+            /* SIDEBAR */
+            <div id="sidebar">t<h2 id="left_title"></h2>t<ul> t
+                </ul>
+            </div>/* subleft */
+            /* center 시작 */
+            /* 국문 */
+            <div id="content">
+                <script>$(function () {
+                        var category = ""; $("#left_title").html(category); $('.visual > dl > dt').html(category); t
+                    });</script>
+
+                /* Left 끝 */
+                /* center 시작 */
+                <div id="sub_con">
+                    /* 콘텐츠 영역 적용하세요 시작 */
+                    <form id="searchList" name="searchList" action="/front/awtis/protection/protectionList.do"
+                        method="get" onsubmit="return false;">
+                        <input type="hidden" name="boardId" value="" /> <input type="hidden" name="page" id="page"
+                            value="1" /> <input type="hidden" name="pageSize" value="0" /> <input type="hidden"
+                            id="desertionNo" name=desertionNo value="" /> <input type="hidden" id="menuNo" name="menuNo"
+                            value="0">
+                        <div class="text_1 mb10">
+                            <p class="blus_tit"> 본 페이지는 공고된 유기동물 자료중 <b class="blue">‘보호중동물’의 목록</b>입니다.<br /> 전체 <b
+                                    class="blue">유기동물 자료는 ‘공고’ 페이지를
+                                    참고</b>하시기 바랍니다. </p>
+                        </div>
+                        /* SEARCH */
+                        <div class="searchArea mb20">
+                            <h4 class="hide">검색영역</h4>
+                            /* <p class="search_ex mb10">날짜 입력시 다음과 같이 입력해주세요. 예) 2011-01-01</p>*/
+                            <ul class="searchList">
+                                <li>
+                                    <dl>
+                                        <dt><label for="searchSDate">날짜</label>
+                                        </dt>
+                                        <dd> <input type="date" name="searchSDate" id="searchSDate" class="inputDate"
+                                                title="시작일" onblur="$('.calendar').hide();" maxlength=10 /> ~ <input
+                                                type="date" name="searchEDate" id="searchEDate" title="마감일"
+                                                class="inputDate" onblur="$('.calendar').hide();" maxlength=10 /> (날짜는
+                                            접수일
+                                            기준입니다) </dd>
+                                    </dl>
+                                </li>
+                                <li>
+                                    <dl>
+                                        <dt><label for="searchUprCd">시도</label></dt>
+                                        <dd> <select name="searchUprCd" id="searchUprCd" title="시도선택">
+                                                <option value="">전체</option>
+                                                <option value="6110000">서울특별시
+                                                </option>
+                                                <option value="6260000">부산광역시 </option>
+                                                <option value="6270000">대구광역시 </option>
+                                                <option value="6280000">인천광역시 </option>
+                                                <option value="6290000">광주광역시 </option>
+                                                <option value="5690000">세종특별자치시 </option>
+                                                <option value="6300000">대전광역시 </option>
+                                                <option value="6310000">울산광역시 </option>
+                                                <option value="6410000">경기도 </option>
+                                                <option value="6420000">
+                                                    강원도 </option>
+                                                <option value="6430000">충청북도 </option>
+                                                <option value="6440000">충청남도 </option>
+                                                <option value="6450000">전라북도 </option>
+                                                <option value="6460000">
+                                                    전라남도 </option>
+                                                <option value="6470000">경상북도 </option>
+                                                <option value="6480000">경상남도 </option>
+                                                <option value="6500000">제주특별자치도 </option>
+                                            </select>
+                                        </dd>
+                                    </dl>
+                                    <dl>
+                                        <dt><label for="searchOrgCd">시군구</label></dt>
+                                        <dd> <select name="searchOrgCd" id="searchOrgCd" title="시군구선택">
+                                                <option value="">전체</option>
+                                            </select> </dd>
+                                    </dl>
+                                    <dl>
+                                        <dt><label for="searchCareRegNo">보호센터</label></dt>
+                                        <dd> <select name="searchCareRegNo" id="searchCareRegNo" title="보호센터선택">
+                                                <option value="">전체</option>
+                                            </select> </dd>
+                                    </dl>
+                                </li>
+                                <li>
+                                    <dl>
+                                        <dt><label for="searchUpKindCd">축종</label></dt>
+                                        <dd>
+                                            <select name="searchUpKindCd" id="searchUpKindCd" title="축종선택">
+                                                <option value="">전체</option>
+                                                <option value="417000">개</option>
+                                                <option value="422400">고양이
+                                                </option>
+                                                <option value="429900">기타</option>
+                                            </select>
+                                            <select name="searchKindCd" id="searchKindCd" title="종류선택">
+                                                <option value="">전체</option>
+                                            </select> <a href="javascript:;" id="search_buon" class="searchBtn">조회</a>
+                                        </dd>
+                                    </dl>
+                                </li>
+                            </ul>
+                        </div>
+                        /* SEARCH */
+                        /* 유의사항 */
+                        <div class="note-txt">
+                            <ul>
+                                <li> 검색시 유의사항 : 품종오류가 발생할 수 있으니 축종을
+                                    전체로 설정 후 한번 더 검색하시기 바랍니다. </li>
+                                <li> <span class="red regular">보호중인 동물
+                                        소유자는 "자세히 보기"를 참고하시어 해당 시군구 및 동물보호센터로 문의하시기 바랍니다.</span> </li>
+                                <li>
+                                    동물보호센터 및 동물병원 <span class="red regular">근무시간은 09:00 ~ 18:00이므로 문의전화는 근무시간에만
+                                        가능</span>합니다. </li>
+                            </ul>
+                        </div>
+                        /* 유의사항 */
+                        /* 검색 시작 */
+                        /* 검색 끝 */
+                        /* LIST */
+                        <div class="boardList">
+                            <ul class="list">
+                                <li>총 6,991 건</li>
+                            </ul>
+                            <ul class="list">
+                                <li>
+                                    <div class="photo">
+                                        <div class="thumbnail"> <a
+                                                href="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/20210618120672.jpg"
+                                                target="_blank" title="클릭시 새창이 열립니다." onclick="showImgWin('/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/20210618120672.jpg','','width=129,height=109');
+        return false;" onkeypress="this.onclick(); return false;">
+                                                <img src="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/20210618120672_s.jpg"
+                                                    alt="보호중동물사진 공고번호-경남-남해-2021-00157" /> </a>
+                                        </div> <a href="#moreBtn" class="moreBtn"
+                                            onclick="javascript:moveUrl('448543202100157');" title="경남-남해-2021-00157
+    자세히 보기">자세히 보기</a>
+                                    </div>
+                                    <div class="txt">
+                                        <dl>
+                                            <dt>공고번호</dt>
+                                            <dd>경남-남해-2021-00157</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>접수일자</dt>
+                                            <dd>2021-06-18</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>품종</dt>
+                                            <dd>진도견</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>성별</dt>
+                                            <dd>수컷</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>발견장소</dt>
+                                            <dd>경남 남해군 설천면..</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>특징</dt>
+                                            <dd>매우 사나움</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>상태</dt>
+                                            <dd>보호중</dd>
+                                        </dl>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="photo">
+                                        <div class="thumbnail"> <a
+                                                href="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181106499.jpg"
+                                                target="_blank" title="클릭시 새창이 열립니다." onclick="showImgWin('/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181106499.jpg','','width=129,height=109');
+        return false;" onkeypress="this.onclick(); return false;">
+                                                <img src="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181106499_s.jpg"
+                                                    alt="보호중동물사진 공고번호-경남-거제-2021-00656" /> </a>
+                                        </div> <a href="#moreBtn" class="moreBtn"
+                                            onclick="javascript:moveUrl('448537202100650');" title="경남-거제-2021-00656
+    자세히 보기">자세히 보기</a>
+                                    </div>
+                                    <div class="txt">
+                                        <dl>
+                                            <dt>공고번호</dt>
+                                            <dd>경남-거제-2021-00656</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>접수일자</dt>
+                                            <dd>2021-06-18</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>품종</dt>
+                                            <dd>믹스견</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>성별</dt>
+                                            <dd>암컷</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>발견장소</dt>
+                                            <dd>사등면 장호리 10..</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>특징</dt>
+                                            <dd>겁이 많음</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>상태</dt>
+                                            <dd>보호중</dd>
+                                        </dl>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="photo">
+                                        <div class="thumbnail"> <a
+                                                href="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181106832.jpg"
+                                                target="_blank" title="클릭시 새창이 열립니다." onclick="showImgWin('/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181106832.jpg','','width=129,height=109');
+        return false;" onkeypress="this.onclick(); return false;">
+                                                <img src="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181106832_s.jpg"
+                                                    alt="보호중동물사진 공고번호-경남-거제-2021-00655" /> </a>
+                                        </div> <a href="#moreBtn" class="moreBtn"
+                                            onclick="javascript:moveUrl('448537202100649');" title="경남-거제-2021-00655
+    자세히 보기">자세히 보기</a>
+                                    </div>
+                                    <div class="txt">
+                                        <dl>
+                                            <dt>공고번호</dt>
+                                            <dd>경남-거제-2021-00655</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>접수일자</dt>
+                                            <dd>2021-06-18</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>품종</dt>
+                                            <dd>한국 고양이</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>성별</dt>
+                                            <dd>미상</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>발견장소</dt>
+                                            <dd>연초 천불사근처</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>특징</dt>
+                                            <dd>경계심함</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>상태</dt>
+                                            <dd>보호중</dd>
+                                        </dl>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="photo">
+                                        <div class="thumbnail"> <a
+                                                href="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/20210618110686.jpg"
+                                                target="_blank" title="클릭시 새창이 열립니다." onclick="showImgWin('/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/20210618110686.jpg','','width=129,height=109');
+        return false;" onkeypress="this.onclick(); return false;">
+                                                <img src="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/20210618110686_s.jpg"
+                                                    alt="보호중동물사진 공고번호-경남-거제-2021-00654" /> </a>
+                                        </div> <a href="#moreBtn" class="moreBtn"
+                                            onclick="javascript:moveUrl('448537202100648');" title="경남-거제-2021-00654
+    자세히 보기">자세히 보기</a>
+                                    </div>
+                                    <div class="txt">
+                                        <dl>
+                                            <dt>공고번호</dt>
+                                            <dd>경남-거제-2021-00654</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>접수일자</dt>
+                                            <dd>2021-06-18</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>품종</dt>
+                                            <dd>한국 고양이</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>성별</dt>
+                                            <dd>암컷</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>발견장소</dt>
+                                            <dd>대우조선 동문 사내..</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>특징</dt>
+                                            <dd>얼굴쪽 상처가 큼</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>상태</dt>
+                                            <dd>보호중</dd>
+                                        </dl>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="photo">
+                                        <div class="thumbnail"> <a
+                                                href="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106180906710.jpg"
+                                                target="_blank" title="클릭시 새창이 열립니다." onclick="showImgWin('/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106180906710.jpg','','width=129,height=109');
+        return false;" onkeypress="this.onclick(); return false;">
+                                                <img src="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106180906710_s.jpg"
+                                                    alt="보호중동물사진 공고번호-경남-거제-2021-00653" /> </a>
+                                        </div> <a href="#moreBtn" class="moreBtn"
+                                            onclick="javascript:moveUrl('448537202100647');" title="경남-거제-2021-00653
+    자세히 보기">자세히 보기</a>
+                                    </div>
+                                    <div class="txt">
+                                        <dl>
+                                            <dt>공고번호</dt>
+                                            <dd>경남-거제-2021-00653</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>접수일자</dt>
+                                            <dd>2021-06-18</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>품종</dt>
+                                            <dd>말티즈</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>성별</dt>
+                                            <dd>암컷</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>발견장소</dt>
+                                            <dd>사등면 온더선셋 앞..</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>특징</dt>
+                                            <dd>순함</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>상태</dt>
+                                            <dd>보호중</dd>
+                                        </dl>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="photo">
+                                        <div class="thumbnail"> <a
+                                                href="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181006543.jpeg"
+                                                target="_blank" title="클릭시 새창이 열립니다." onclick="showImgWin('/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181006543.jpeg','','width=129,height=109');
+        return false;" onkeypress="this.onclick(); return false;">
+                                                <img src="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181006543_s.jpg"
+                                                    alt="보호중동물사진 공고번호-경남-사천-2021-00159" /> </a>
+                                        </div> <a href="#moreBtn" class="moreBtn"
+                                            onclick="javascript:moveUrl('448534202100161');" title="경남-사천-2021-00159
+    자세히 보기">자세히 보기</a>
+                                    </div>
+                                    <div class="txt">
+                                        <dl>
+                                            <dt>공고번호</dt>
+                                            <dd>경남-사천-2021-00159</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>접수일자</dt>
+                                            <dd>2021-06-18</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>품종</dt>
+                                            <dd>믹스견</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>성별</dt>
+                                            <dd>암컷</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>발견장소</dt>
+                                            <dd>용현면 주문리 해안..</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>특징</dt>
+                                            <dd>심장사상충양성</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>상태</dt>
+                                            <dd>보호중</dd>
+                                        </dl>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="photo">
+                                        <div class="thumbnail"> <a
+                                                href="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181006282.jpeg"
+                                                target="_blank" title="클릭시 새창이 열립니다." onclick="showImgWin('/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181006282.jpeg','','width=129,height=109');
+        return false;" onkeypress="this.onclick(); return false;">
+                                                <img src="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181006282_s.jpg"
+                                                    alt="보호중동물사진 공고번호-경남-사천-2021-00158" /> </a>
+                                        </div> <a href="#moreBtn" class="moreBtn"
+                                            onclick="javascript:moveUrl('448534202100160');" title="경남-사천-2021-00158
+    자세히 보기">자세히 보기</a>
+                                    </div>
+                                    <div class="txt">
+                                        <dl>
+                                            <dt>공고번호</dt>
+                                            <dd>경남-사천-2021-00158</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>접수일자</dt>
+                                            <dd>2021-06-18</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>품종</dt>
+                                            <dd>믹스견</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>성별</dt>
+                                            <dd>수컷</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>발견장소</dt>
+                                            <dd>용현면 온정2길</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>특징</dt>
+                                            <dd>심장사상충 양성</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>상태</dt>
+                                            <dd>보호중</dd>
+                                        </dl>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="photo">
+                                        <div class="thumbnail"> <a
+                                                href="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181006189.jpeg"
+                                                target="_blank" title="클릭시 새창이 열립니다." onclick="showImgWin('/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181006189.jpeg','','width=129,height=109');
+        return false;" onkeypress="this.onclick(); return false;">
+                                                <img src="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181006189_s.jpg"
+                                                    alt="보호중동물사진 공고번호-경남-사천-2021-00157" /> </a>
+                                        </div> <a href="#moreBtn" class="moreBtn"
+                                            onclick="javascript:moveUrl('448534202100159');" title="경남-사천-2021-00157
+    자세히 보기">자세히 보기</a>
+                                    </div>
+                                    <div class="txt">
+                                        <dl>
+                                            <dt>공고번호</dt>
+                                            <dd>경남-사천-2021-00157</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>접수일자</dt>
+                                            <dd>2021-06-18</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>품종</dt>
+                                            <dd>믹스견</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>성별</dt>
+                                            <dd>수컷</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>발견장소</dt>
+                                            <dd>축동 구호마을</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>특징</dt>
+                                            <dd>입주위와 눈앞쪽으로..</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>상태</dt>
+                                            <dd>보호중</dd>
+                                        </dl>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="photo">
+                                        <div class="thumbnail"> <a
+                                                href="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/20210618100649.jpeg"
+                                                target="_blank" title="클릭시 새창이 열립니다." onclick="showImgWin('/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/20210618100649.jpeg','','width=129,height=109');
+        return false;" onkeypress="this.onclick(); return false;">
+                                                <img src="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/20210618100649_s.jpg"
+                                                    alt="보호중동물사진 공고번호-경남-사천-2021-00156" /> </a>
+                                        </div> <a href="#moreBtn" class="moreBtn"
+                                            onclick="javascript:moveUrl('448534202100158');" title="경남-사천-2021-00156
+    자세히 보기">자세히 보기</a>
+                                    </div>
+                                    <div class="txt">
+                                        <dl>
+                                            <dt>공고번호</dt>
+                                            <dd>경남-사천-2021-00156</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>접수일자</dt>
+                                            <dd>2021-06-18</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>품종</dt>
+                                            <dd>믹스견</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>성별</dt>
+                                            <dd>수컷</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>발견장소</dt>
+                                            <dd>축동 구호마을</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>특징</dt>
+                                            <dd>입주위에 약간의 검..</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>상태</dt>
+                                            <dd>보호중</dd>
+                                        </dl>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="photo">
+                                        <div class="thumbnail"> <a
+                                                href="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181006243.jpeg"
+                                                target="_blank" title="클릭시 새창이 열립니다." onclick="showImgWin('/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181006243.jpeg','','width=129,height=109');
+        return false;" onkeypress="this.onclick(); return false;">
+                                                <img src="/front/fileMng/imageView.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?f=/files/shelter/2021/05/202106181006243_s.jpg"
+                                                    alt="보호중동물사진 공고번호-경남-사천-2021-00155" /> </a>
+                                        </div> <a href="#moreBtn" class="moreBtn"
+                                            onclick="javascript:moveUrl('448534202100157');" title="경남-사천-2021-00155
+    자세히 보기">자세히 보기</a>
+                                    </div>
+                                    <div class="txt">
+                                        <dl>
+                                            <dt>공고번호</dt>
+                                            <dd>경남-사천-2021-00155</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>접수일자</dt>
+                                            <dd>2021-06-18</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>품종</dt>
+                                            <dd>믹스견</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>성별</dt>
+                                            <dd>수컷</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>발견장소</dt>
+                                            <dd>축동 구호마을</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>특징</dt>
+                                            <dd>코주위와 눈앞쪽으로..</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>상태</dt>
+                                            <dd>보호중</dd>
+                                        </dl>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        /* LIST */
+                        /* 페이지 표시 시작 */
+                        <script type="text/javascript"></script>
+                        <ul class="paging">
+                            <li><a href="#" class="active" title="현재 페이지">1</a></li>
+                            <li><a href="?totalCount=6991&amp;pageSize=10&amp;&amp;page=2">2</a></li>
+                            <li><a href="?totalCount=6991&amp;pageSize=10&amp;&amp;page=3">3</a></li>
+                            <li><a href="?totalCount=6991&amp;pageSize=10&amp;&amp;page=4">4</a>
+                            </li>
+                            <li><a href="?totalCount=6991&amp;pageSize=10&amp;&amp;page=5">5</a></li>
+                            <li><a href="?totalCount=6991&amp;pageSize=10&amp;&amp;page=6">6</a>
+                            </li>
+                            <li><a href="?totalCount=6991&amp;pageSize=10&amp;&amp;page=7">7</a></li>
+                            <li><a href="?totalCount=6991&amp;pageSize=10&amp;&amp;page=8">8</a>
+                            </li>
+                            <li><a href="?totalCount=6991&amp;pageSize=10&amp;&amp;page=9">9</a></li>
+                            <li><a href="?totalCount=6991&amp;pageSize=10&amp;&amp;page=10">10</a>
+                            </li>
+                            <li><a href="?totalCount=6991&amp;pageSize=10&amp;&amp;page=11" class="next">Next</a>
+                            </li>
+                            <li><a href="?totalCount=6991&amp;pageSize=10&amp;&amp;page=700" class="last">Last</a></li>
+                        </ul>
+                        /* 페이지 표시 끝 */
+                        /* 콘텐츠 영역 적용하세요 끝 */
+                    </form>
+                </div>/* sub_con */
+            </div>/* center 콘텐츠 끝 */
+        </div>/* contents 콘텐츠 전체 끝 */
+        /* 풋터 시작 */
+        <script type="text/javascript"
+            src="/front/js/jquery.PrintArea.js_4.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+        <script type="text/javascript"
+            src="/front/js/jquery.printElement.js;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"></script>
+
+        <script type="text/javascript">    // 공통 코드  
+
+            $(function () {
+                $("ul").each(function () {
+
+                    $(this).children().first().addClass('first');
+
+                    $(this).children().last().addClass('last');
+                });
+
+                $("").each(function () {
+                    $(this).children().first().addClass('first');
+                    $(this).children().last().addClass('last');
+                });
+            });
+
+            $(function () { // 탭      
+                $(".tab_ul").not('.no_event').children('li').click(function () {
+
+                    var target = $(this).ar('data-key');
+
+                    $(this).addClass('active').siblings().removeClass('active');
+
+                    $(".tab_content").hide();
+
+                    $(".tab_content[data-key=" + target + "]").show();
+                });
+            });
+
+            function hidden_act(eq) { // hidden (비전)
+                $(".hidden_act").eq(eq).show().siblings('.hidden_act').hide()
+                //$('body, html').animate({scrollTop:1500},800);       
+                // alert($("#hidden_a").offset().top);       
+                // .scrollTop( $("#hidden_a").offset().top - 20 );        
+                self.location.hash = 'hidden_a';
+            }
+
+
+            $(document).ready(function () {      //$(".copyright_opt").html("");        
+                $("#btnPrint").click(function () {
+
+                    printByJquery({
+                        printMode: 'popup', //팝업설정 popup = 팝업창 , iframe = iframer               
+
+                        /* overrideElementCSS:[ '/front/css/homepage/common.css;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front'                 
+                        , {href:'/css/homepage/common.css',media:''}                
+                         ,{href:'/css/homepage/common_dev.css',media:''}      
+                                    ,{href:'/css/homepage/bbs.css',media:''}             
+                                        ,{href:'/css/homepage/contents.css',media:''} ], //css경로 */
+
+                        overrideElementCSS: ['/front/css/homepage/common_dev.css;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front'
+                            , { href: '/css/homepage/cohmmon.css', media: '' }
+                            , { href: '/css/homepage/contents.css', media: '' }
+                            , { href: '/css/homepage/bbs.css', media: '' }], //css경로r                
+                        pageTitle: '', //인쇄 타이틀             
+                        leaveOpen: false //false = 인쇄후 창닫기r          
+                    });
+                });
+            });
+
+
+            function printByJquery(options) {     /*2013.08.29 njkim 수정
+                
+                
+                */        //$("#area_bg").printElement(options);        
+
+                var p_title = $("h4").clone(true);
+                var p_content = $("#content_area").clone(true);        //타이틀 백그라운드 제거r       
+                $(p_title).css("background", "");        //인쇄버튼삭제r     
+                $(p_content).find("#btnPrint").remove();
+                $(p_content).find("#subcon_printarea").css("background", "");        //검색영역삭제r   
+                $(p_content).find(".bbs_search").remove();        //하단만족도조사삭제r     
+                $(p_content).find("#page_boom2").remove();              //하단 첨부파일/이전글/다음글 영역삭제r  
+                if ($(p_content).find(".bbs_prev").length > 0) {
+                    $(p_content).find(".bbs_prev").parent().parent().parent().parent().parent().remove();
+                } else if ($(p_content).find(".bbs_next").length > 0) {
+                    $(p_content).find(".bbs_prev").parent().parent().parent().parent().parent().remove();
+                }     //하단 버튼영역 삭제r        
+                $(p_content).find(".bd1_listbtn").remove();
+                p_title.append(p_content).printElement(options);
+            }</script>
+
+        <div id="footerMenu_wrap">
+            <h1 style="display:none">하단메뉴영역</h1>
+            <div id="footerMenu">
+                <ul>
+                    <li><a
+                            href="/front/community/show.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?boardId=contents&seq=183&menuNo=7000000001">시스템소개</a>
+                    </li>
+                    <li><a
+                            href="/front/community/show.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?boardId=contents&seq=222&menuNo=8000300007">저작권
+                            정책</a></li>
+                    <li><a
+                            href="/front/community/show.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?boardId=contents&seq=235&menuNo=8000200003">이용안내</a>
+                    </li>
+                    <li><a
+                            href="/front/community/show.do;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front?boardId=contents&seq=248&menuNo=8000200004">개인정보처리방침</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        /* FOOTER MENU */
+        /* FOOTER */
+        <div id="footer_wrap">
+            <h1 style="display:none">하단문구영역</h1>
+            <div id="footer">
+                <h2><img src='/front/images/common/footer-logo.png;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front'
+                        alt="농림축산검역본부" /></h2>
+                <ul class="info">
+                    <li>39660 경상북도 김천시 혁신8로 177(율곡동)</li>
+                    <li>전화번호 : <a href='tel:1577-0954'>1577-0954</a></li>
+                    <script>
+
+                        if (getCookie("DesktopMode") == "true") {
+                            document.write('<li class="mobile_version" onclick="desktopMode()">MOBILE 버전</li>');
+                        }
+                    </script>
+                    <li class="pc_version" onclick="desktopMode()">PC 버전</li>
+                </ul>
+                <p class="copy"> Copyright by Animal and Plant Quarantine Agency. All Rights Reserved.
+                </p>
+
+
+                <a title="한국웹저근성인증평가원" href="hp://www.wa.or.kr/board/list.asp?BoardID=0006" target="_blank"><img
+                        src="/front/images/common/wa-logo-20210410-20220409.png;jsessionid=FTXM6oIJvo0KKjtCz7kqaVMKkGR2ez6TZrMyVwPeWBbsBLO3JnVJ32KLRJqgZvxs.aniwas_servlet_front"
+                        class="wa" alt="웹접근성인증 로고" /></a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html> -->
